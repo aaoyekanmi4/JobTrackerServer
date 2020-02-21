@@ -19,16 +19,17 @@ app.use(cors())
   const knexInstance = req.app.get('db')
   jobsService.getAllJobs(knexInstance)
       .then(jobs => {
-        
-               res.json(jobs.map(job => ({
-                   id: job.id,
-                   company: job.company,
-                   job_role: job.job_role,
-                   job_description: job.job_description,
-                   date_created:job.date_created,
-                 })))
+               res.json(jobs)
       })
       .catch(next)
+  })
+  app.get('/api/jobs/:job_id', (req, res, next) => {
+    const knexInstance = req.app.get('db');
+    const jobId = req.params.job_id;
+    jobsService.getJobById(knexInstance, jobId )
+    .then (job => res.json(job))
+
+  .catch(next)
   })
   
   
