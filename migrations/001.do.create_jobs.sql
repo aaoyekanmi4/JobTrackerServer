@@ -9,5 +9,5 @@ CREATE TABLE jobs (
   phone_screen DATE,
   interview DATE,
   offer INTEGER,
-  date_created TIMESTAMP DEFAULT now() NOT NULL
+  date_created TEXT
 );
