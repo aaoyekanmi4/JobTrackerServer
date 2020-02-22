@@ -16,16 +16,18 @@ jobsRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { company, job_role, job_location, applied } = req.body;
-    const newJob = { company, job_role, job_location, applied };
+    const { company, job_role, job_location, job_description, found_at, applied, phone_screen, interview, offer} = req.body;
 
-    for (const [key, value] of Object.entries(newJob)) {
+    const requiredValues = { company, job_role, job_location, applied}
+
+    for (const [key, value] of Object.entries(requiredValues)) {
       if (value == null) {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` }
         });
       }
     }
+    const newJob = { company, job_role, job_location, job_description, found_at,applied, phone_screen, interview, offer };
 
     jobsService
       .insertJob(req.app.get("db"), newJob)

@@ -65,8 +65,13 @@ describe("Jobs Endpoints", function() {
          const newJob = {
           company: 'Company post test',
           job_role: 'test role',
-          job_location: 'test location',
-          applied:true
+          job_location: 'Omaha, NE',
+          job_description: "Confidential and Secret",
+          found_at: 'monster.com',
+          applied: true,
+          phone_screen:null ,
+          interview: null,
+          offer: null,
          }
          return supertest(app)
            .post('/api/jobs')
