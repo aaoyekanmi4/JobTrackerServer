@@ -15,6 +15,9 @@ const jobsService = {
      },
    deleteJob(knex, id) {
        return knex('jobs').where({ id }).delete()
+   },
+   updateJob(knex, id, updateJob) {
+       return knex('jobs').where({ id }).update(updateJob)
    }
 } 
 

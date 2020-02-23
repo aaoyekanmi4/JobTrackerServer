@@ -17,7 +17,7 @@ app.use(helmet())
 app.use(cors())
 //send all jobs
  
-  
+app.use(jobsRouter);
 
 
       app.use(function errorHandler(error, req, res, next) {
@@ -30,7 +30,7 @@ app.use(cors())
            }
            res.status(500).json(response)
          })
-         app.use(jobsRouter);
+      
   
 
 module.exports = app

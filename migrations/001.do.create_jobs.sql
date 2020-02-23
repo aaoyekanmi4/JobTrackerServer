@@ -5,9 +5,9 @@ CREATE TABLE jobs (
   job_location TEXT,
   job_description TEXT,
   found_at TEXT,
-  applied BOOLEAN,
+  applied DATE,
   phone_screen DATE,
   interview DATE,
-  offer INTEGER,
+  offer TEXT,
   date_created TIMESTAMP DEFAULT now() 
 );
