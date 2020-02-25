@@ -5,6 +5,8 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const jobsRouter = require('./jobs/jobs-router')
+const authRouter = require('./auth/auth-router');
+const usersRouter = require('./users/usersRouter');
 
 const app = express()
 
@@ -15,9 +17,13 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
-//send all jobs
- 
+
+
+
+
+app.use('/api/auth', authRouter);
 app.use(jobsRouter);
+app.use('/api/users', usersRouter)
 
 
       app.use(function errorHandler(error, req, res, next) {
