@@ -12,3 +12,6 @@ CREATE TABLE contacts (
         REFERENCES jobs(id) ON DELETE CASCADE NOT NULL
    
 );
+ALTER TABLE contacts
+  ADD COLUMN
+    role TEXT;

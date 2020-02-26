@@ -2,14 +2,16 @@ const express = require("express");
 const jobsRouter = express.Router();
 const xss = require('xss')
 const bodyParser = express.json();
+const { requireAuth } = require('../middleware/jwt-auth')
 const jobsService = require("./jobs-service");
 
 jobsRouter
   .route("/api/jobs")
+  .all(requireAuth)
   .get((req, res, next) => {
     const knexInstance = req.app.get("db");
     jobsService
-      .getAllJobs(knexInstance)
+      .getUsersJobs(knexInstance, req.user.id)
       .then(jobs => {
         res.json(jobs);
       })
@@ -28,7 +30,7 @@ jobsRouter
       }
     }
     const newJob = { company, job_role, job_location, job_description, found_at,applied, phone_screen, interview, offer };
-
+    newJob.user_id = req.user.id;
     jobsService
       .insertJob(req.app.get("db"), newJob)
       .then(job => {
@@ -41,10 +43,11 @@ jobsRouter
   });
 
 jobsRouter.route("/api/jobs/:job_id")
-   .all((req, res, next) => {
+   .all(requireAuth, (req, res, next) => {
        jobsService.getJobById(
          req.app.get('db'),
-         req.params.job_id
+         req.params.job_id,
+         req.user.id
        )
          .then(job => {
            if (!job) {
@@ -64,7 +67,8 @@ jobsRouter.route("/api/jobs/:job_id")
             
                    jobsService.deleteJob(
                      req.app.get('db'),
-                     req.params.job_id
+                     req.params.job_id,
+                     req.user.id
                    )
                      .then(() => {
                        res.status(204).end()
@@ -72,7 +76,7 @@ jobsRouter.route("/api/jobs/:job_id")
                      .catch(next)
                   })
                 
- .patch(bodyParser, (req, res, next) => {
+ .patch( bodyParser, (req, res, next) => {
   const { company, job_role, job_location, job_description, found_at, applied, phone_screen, interview, offer} = req.body;
 
      const jobToUpdate = { company, job_role, job_location, job_description, found_at,applied, phone_screen, interview, offer };
@@ -81,7 +85,8 @@ jobsRouter.route("/api/jobs/:job_id")
 jobsService
 .updateJob( req.app.get('db'),
        req.params.job_id,
-       jobToUpdate
+       jobToUpdate,
+       req.user.id
      )
        .then(numRowsAffected => {
          res.status(204).end()

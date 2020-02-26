@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const jobsRouter = require('./jobs/jobs-router')
 const authRouter = require('./auth/auth-router');
 const usersRouter = require('./users/usersRouter');
+const contactsRouter = require('./contacts/contacts-router');
 
 const app = express()
 
@@ -19,11 +20,14 @@ app.use(helmet())
 app.use(cors())
 
 
-
-
 app.use('/api/auth', authRouter);
-app.use(jobsRouter);
 app.use('/api/users', usersRouter)
+
+app.use(jobsRouter);
+app.use(contactsRouter);
+
+
+
 
 
       app.use(function errorHandler(error, req, res, next) {
