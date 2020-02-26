@@ -1,6 +1,6 @@
 const contactsService = {
-    getAllContacts(knex) {
-        return knex.select('*').from('contacts');
+    getAllContacts(knex, job_id) {
+        return knex.select('*').from('contacts').where({ job_id});
     },
     insertContact(knex, newContact) {
         return knex

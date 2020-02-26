@@ -6,12 +6,12 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const contactsService = require("./contacts-service");
 
 contactsRouter
-  .route("/api/contacts")
+  .route("/api/contacts/job/:job_id")
   .all(requireAuth)
   .get((req, res, next) => {
     const knexInstance = req.app.get("db");
     contactsService
-      .getAllContacts(knexInstance)
+      .getAllContacts(knexInstance, req.params.job_id)
       .then(contacts => {
         res.json(contacts);
       })
@@ -80,7 +80,7 @@ contactsRouter.route("/api/contacts/:contact_id")
 
 
      const contactToUpdate =  { name, role, email, phone, contact_url, last_contacted, job_id};
-     //newContact.user_id = req.user.id 
+    contactToUpdate.user_id = req.user.id 
  
 contactsService
 .updateContact( req.app.get('db'),
