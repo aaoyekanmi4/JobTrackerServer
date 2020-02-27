@@ -25,8 +25,8 @@ jobsRouter
     for (const [key, value] of Object.entries(requiredValues)) {
       if (value == null) {
         return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        });
+          error: `Missing '${key}' in request body` }
+        );
       }
     }
     const newJob = { company, job_role, job_location, job_description, found_at,applied, phone_screen, interview, offer };
@@ -52,7 +52,7 @@ jobsRouter.route("/api/jobs/:job_id")
          .then(job => {
            if (!job) {
              return res.status(404).json({
-               error: { message: `Job doesn't exist` }
+               error:`Job doesn't exist` 
              })
            }
            res.job = job // save the job for the next middleware
