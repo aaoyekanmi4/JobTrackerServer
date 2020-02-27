@@ -25,7 +25,7 @@ jobsRouter
     for (const [key, value] of Object.entries(requiredValues)) {
       if (value == null) {
         return res.status(400).json({
-          error: `Missing '${key}' in request body` }
+          error: `Missing required value: '${key}'` }
         );
       }
     }
@@ -79,6 +79,16 @@ jobsRouter.route("/api/jobs/:job_id")
  .patch( bodyParser, (req, res, next) => {
   const { company, job_role, job_location, job_description, found_at, applied, phone_screen, interview, offer} = req.body;
 
+  const requiredValues = { company, job_role, job_location}
+
+  for (const [key, value] of Object.entries(requiredValues)) {
+    if (value == null) {
+      return res.status(400).json({
+        error: `Missing required value: '${key}'` }
+      );
+    }
+  }
+
      const jobToUpdate = { company, job_role, job_location, job_description, found_at,applied, phone_screen, interview, offer };
 
  
@@ -89,7 +99,8 @@ jobsService
        req.user.id
      )
        .then(numRowsAffected => {
-         res.status(204).end()
+         res.status(204)
+         .json(jobToUpdate)
        })
        .catch(next)
     })
