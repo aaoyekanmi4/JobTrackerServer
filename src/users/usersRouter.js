@@ -9,11 +9,25 @@ usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
     const { password, user_name, email, password2 } = req.body
 
-    for (const field of ['email', 'user_name', 'password', 'password2'])
-      if (!req.body[field])
+    for (const field of ['email', 'user_name', 'password', 'password2']) {
+      if (!req.body['user_name']) {
+        return res.status(400).json({error:'Please enter a username'})
+      }
+      if (!req.body['email']){
         return res.status(400).json({
-          error: `Missing '${field}' in request body`
+          error: `Please enter an email address.`
         })
+      }
+      if (!req.body['password']){
+        return res.status(400).json({
+          error: `Please enter a  pasword`
+        })
+      }
+    if (!req.body['password2']) {
+      return res.status(400).json({error:'Please confirm the password'})
+    }
+ 
+  }
 
     const passwordsDontMatch = UsersService.checkPasswordsMatch(password, password2);
     if(passwordsDontMatch) return res.status(400).json({ error: passwordsDontMatch})
