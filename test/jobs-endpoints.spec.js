@@ -152,4 +152,94 @@ describe('Jobs Endpoints', function() {
   })
 })
   })
+  describe('POST /api/jobs', () => {
+    beforeEach(() =>
+ 
+      helpers.seedUsers(db, testUsers)
+     )
+     it('responds 400 when company not provided', () => {
+       
+       const job = {
+         //company:"Floyd's",
+         job_role:"Plumber", 
+         job_location:"Miami"
+       }
+
+       return supertest(app)
+       .post('/api/jobs')
+       .send(job)
+       .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+       .expect(400, {error:'Missing required value: company'})
+     })
+
+     it('responds 400 when role not provided', () => {
+      
+      const job = {
+        company:"Floyd's",
+       // job_role:"Plumber", 
+        job_location:"Miami"
+      }
+
+      return supertest(app)
+      .post('/api/jobs')
+      .send(job)
+      .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+      .expect(400, {error:'Missing required value: job_role'})
+    })
+
+    it('responds 400 when job_location not provided', () => {
+      
+      const job = {
+        company:"Floyd's",
+        job_role:"Plumber", 
+        //job_location:"Miami",
+
+      }
+
+      return supertest(app)
+      .post('/api/jobs')
+      .send(job)
+      .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+      .expect(400, {error:'Missing required value: job_location'})
+    })
+    it('adds a new job to the database', () => {
+     const job = {
+      company: "Appy",
+      job_role: "Programmer",
+      job_location: "Austin, TX",
+      job_description: "I program the computers.",
+      found_at: "indeed.com",
+      applied: null,
+      phone_screen: null,
+      interview: null,
+      offer: '20000',
+      user_id:1
+        
+      }
+      return supertest(app)
+        .post(`/api/jobs`)
+        .send(job)
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .expect(201)
+        .expect(res => {
+          expect(res.body.company).to.eql(job.company)
+          expect(res.body.job_role).to.eql(job.job_role)
+          expect(res.body.job_location).to.eql(job.job_location)
+          expect(res.body.job_description).to.eql(job.job_description)
+          expect(res.body.found_at).to.eql(job.found_at)
+          expect(res.body.applied).to.eql(job.applied)
+          expect(res.body.interview).to.eql(job.interview)
+          expect(res.body.offer).to.eql(job.offer)
+          expect(res.body.user_id).to.eql(job.user_id)
+          expect(res.body).to.have.property('id')
+          expect(res.headers.location).to.eql(`/api/jobs/${res.body.id}`)
+        })
+        .then(res =>
+          supertest(app)
+            .get(`/api/jobs/${res.body.id}`)
+            .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+            .expect(res.body)
+        )
+    })
+  })
 })

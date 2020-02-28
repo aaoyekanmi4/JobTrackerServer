@@ -25,7 +25,7 @@ jobsRouter
     for (const [key, value] of Object.entries(requiredValues)) {
       if (value == null) {
         return res.status(400).json({
-          error: `Missing required value: '${key}'` }
+          error: `Missing required value: ${key}` }
         );
       }
     }
@@ -37,7 +37,21 @@ jobsRouter
         res
           .status(201)
           .location(`/api/jobs/${job.id}`)
-          .json(job);
+          .json( {
+            id: job.id,
+            company: xss(job.company),
+            job_role: xss(job.job_role),
+            job_location: xss(job.job_location),
+            job_description:xss(job.job_description),
+            found_at: xss(job.found_at),
+            applied: xss(job.applied),
+            phone_screen: xss(job.phone_screen),
+            interview: xss(job.interview),
+            offer: xss(job.offer),
+            date_created: job.date_created.toISOString(),
+            user_id:job.user_id
+        
+          });
       })
       .catch(next);
   });
