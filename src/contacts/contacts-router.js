@@ -13,7 +13,15 @@ contactsRouter
     contactsService
       .getAllContacts(knexInstance, req.params.job_id)
       .then(contacts => {
-        res.json(contacts);
+        if (!contacts.length) {
+          return res.status(404).json({
+            error:`Job doesn't exist` 
+          })
+        }
+        else {
+         return res.json(contacts);
+        }
+       
       })
       .catch(next);
   })
