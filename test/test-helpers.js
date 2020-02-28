@@ -41,7 +41,7 @@ function makeUsersArray() {
           id: 1,
           company: "Appy",
           job_role: "Programmer",
-          job_location: null,
+          job_location: 'here',
           job_description: "I program the computers.",
           found_at: null,
           applied: null,
@@ -55,7 +55,7 @@ function makeUsersArray() {
           id: 2,
           company: "MIB",
           job_role: "Code Ninja",
-          job_location: null,
+          job_location: 'here',
           job_description: "Hiyaaaa!",
           found_at: null,
           applied: null,
@@ -69,7 +69,7 @@ function makeUsersArray() {
           id: 3,
           company: "The Space Force",
           job_role: "Super Secret Role",
-          job_location: null,
+          job_location: 'here',
           job_description: "Confidential and Secret",
           found_at: null,
           applied: null,
@@ -139,7 +139,22 @@ function makeUsersArray() {
 
     ];
   }
-  
+  function makeExpectedContact(contact) {
+    return {
+        id: contact.id,
+        name: contact.name,
+      
+        email:contact.email,
+        phone:contact.phone,
+        contact_url:contact.contact_url,
+        last_contacted:contact.last_contacted,
+        job_id: contact.job_id,
+        user_id: contact.user_id,
+        date_created: contact.date_created.toISOString(),
+        role:contact.role,
+      
+  }
+}
   function makeExpectedJob(users, job, contacts=[]) {
     const owner = users
       .find(user => user.id === job.user_id)
@@ -254,6 +269,27 @@ function makeUsersArray() {
       }
     })
   }
+  function makeMaliciousJob(user) {
+    const maliciousJob= {
+      id: 911,
+      company: 'Fake co.',
+      date_created: new Date(),
+      job_location:'here',
+      job_role: 'Naughty naughty very naughty <script>alert("xss");</script>',
+      user_id: user.id,
+      job_description: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+     
+    }
+    const expectedJob = {
+      ...makeExpectedJob([user], maliciousJob),
+      job_role: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+      job_description: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
+    }
+    return {
+      maliciousJob,
+      expectedJob,
+    }
+  }
   
   function seedMaliciousJob(db, user, job) {
     return db
@@ -273,6 +309,9 @@ function makeUsersArray() {
     makeExpectedJobContacts,
     makeContactsArray,
     makeAuthHeader,
+    makeMaliciousJob,
+    makeExpectedContact,
+    seedMaliciousJob,
     makeJobsFixtures,
     cleanTables,
     seedJobsTables,

@@ -60,8 +60,8 @@ contactsRouter.route("/api/contacts/:contact_id")
          .then(contact => {
            if (!contact) {
              return res.status(404).json({
-               error: { message: `Contact doesn't exist` }
-             })
+               error: `Contact doesn't exist` }
+             )
            }
            res.contact = contact // save the contact for the next middleware
            next() // don't forget to call next so the next middleware happens!
@@ -96,6 +96,7 @@ contactsService
        contactToUpdate
      )
        .then(numRowsAffected => {
+        
          res.status(204).end()
        })
        .catch(next)

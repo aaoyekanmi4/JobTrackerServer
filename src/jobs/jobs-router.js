@@ -13,7 +13,19 @@ jobsRouter
     jobsService
       .getUsersJobs(knexInstance, req.user.id)
       .then(jobs => {
-        res.json(jobs);
+      res.json(  jobs.map(job => ({  id: job.id,
+        company: xss(job.company),
+        job_role: xss(job.job_role),
+        job_location: xss(job.job_location),
+        job_description:xss(job.job_description),
+        found_at: xss(job.found_at) || null,
+        applied: xss(job.applied) || null,
+        phone_screen: xss(job.phone_screen) || null,
+        interview: xss(job.interview) || null,
+        offer: xss(job.offer) || null,
+        date_created: job.date_created,
+        user_id:job.user_id}))
+      )
       })
       .catch(next);
   })
@@ -44,10 +56,10 @@ jobsRouter
             job_location: xss(job.job_location),
             job_description:xss(job.job_description),
             found_at: xss(job.found_at),
-            applied: xss(job.applied),
-            phone_screen: xss(job.phone_screen),
-            interview: xss(job.interview),
-            offer: xss(job.offer),
+            applied: xss(job.applied) || null,
+            phone_screen: xss(job.phone_screen) || null,
+            interview: xss(job.interview) || null,
+            offer: xss(job.offer) || null,
             date_created: job.date_created.toISOString(),
             user_id:job.user_id
         
@@ -75,7 +87,21 @@ jobsRouter.route("/api/jobs/:job_id")
          .catch(next)
      })
      .get((req, res, next) => {
-           res.json(res.job)
+           res.json( {
+            id: res.job.id,
+            company: xss(res.job.company),
+            job_role: xss(res.job.job_role),
+            job_location: xss(res.job.job_location) || null,
+            job_description:xss(res.job.job_description),
+            found_at: xss(res.job.found_at) || null,
+            applied: xss(res.job.applied) || null,
+            phone_screen: xss(res.job.phone_screen) || null,
+            interview: xss(res.job.interview) || null,
+            offer: xss(res.job.offer) || null,
+            date_created: res.job.date_created,
+            user_id:res.job.user_id
+        
+          });
               })
               .delete((req, res, next) => {
             
@@ -113,8 +139,8 @@ jobsService
        req.user.id
      )
        .then(numRowsAffected => {
-         res.status(204)
-         .json(jobToUpdate)
+         res.status(204).end()
+     
        })
        .catch(next)
     })
