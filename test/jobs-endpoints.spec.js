@@ -72,6 +72,41 @@ describe("Jobs Endpoints", function() {
       });
     });
   });
+  describe('DELETE /api/jobs/:job_id',()=> {
+    context('Given no jobs in the database', ()=> {
+      beforeEach(() => helpers.seedUsers(db, testUsers));
+      it(`responds with 404 on delete`, () => {
+        const jobId = 123456
+        return supertest(app)
+          .delete(`/api/jobs/${jobId}`)
+          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: `Job doesn't exist` })
+      })
+    })
+   context('Given jobs in the database', ()=> {
+    beforeEach("insert jobs", () =>
+    helpers.seedJobsTables(db, testUsers, testJobs, testContacts)
+  );
+    it(`deletes job from database`, () => {
+      const jobId = 2;
+      const expectedJobs = testJobs.map(job =>
+        helpers.makeExpectedJob(testUsers, job, testContacts)
+      );
+      const jobsWithDelete = expectedJobs.filter(job => job.id !==jobId);
+    
+      return supertest(app)
+        .delete(`/api/jobs/${jobId}`)
+        .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+        .expect(204)
+        .then(res=> 
+          supertest(app)
+          .get('/api/jobs')
+          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, jobsWithDelete)
+        )
+    })
+   })
+  })
 
   describe(`GET /api/jobs/:job_id`, () => {
     context(`Given no jobs`, () => {
@@ -83,13 +118,7 @@ describe("Jobs Endpoints", function() {
           .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: `Job doesn't exist` });
       });
-      it(`responds with 404 on delete`, () => {
-        const jobId = 123456
-        return supertest(app)
-          .delete(`/api/jobs/${jobId}`)
-          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-          .expect(404, { error: `Job doesn't exist` })
-      })
+     
     });
 
     context("Given there are jobs in the database", () => {
@@ -110,24 +139,7 @@ describe("Jobs Endpoints", function() {
           .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedJob);
       });
-      it(`deletes job from database`, () => {
-        const jobId = 2;
-        const expectedJobs = testJobs.map(job =>
-          helpers.makeExpectedJob(testUsers, job, testContacts)
-        );
-        const jobsWithDelete = expectedJobs.filter(job => job.id !==jobId);
-      
-        return supertest(app)
-          .delete(`/api/jobs/${jobId}`)
-          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-          .expect(204)
-          .then(res=> 
-            supertest(app)
-            .get('/api/jobs')
-            .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-            .expect(200, jobsWithDelete)
-          )
-      })
+  
     });
 
     describe(`GET /api/contacts/job/:job_id`, () => {

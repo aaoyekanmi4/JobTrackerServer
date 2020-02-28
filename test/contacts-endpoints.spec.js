@@ -24,7 +24,7 @@ describe('Contacts Endpoints', function() {
   before('cleanup', () => helpers.cleanTables(db))
 
   afterEach('cleanup', () => helpers.cleanTables(db))
-  describe('/api/contacts/:contact_id', ()=> {
+  describe('GET /api/contacts/:contact_id', ()=> {
       context('Given no contacts in the database,', ()=> {
         beforeEach(() => helpers.seedUsers(db, testUsers));
           it('returns 404 not found', ()=> {
