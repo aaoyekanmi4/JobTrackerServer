@@ -107,7 +107,7 @@ function makeUsersArray() {
         phone:'9999999999',
         contact_url:'linkedin.com',
         last_contacted:null,
-        job_id: jobs[0].id,
+        job_id: jobs[1].id,
         user_id: users[0].id,
         date_created: new Date('2029-01-22T16:28:32.615Z'),
       },

@@ -33,8 +33,8 @@ contactsRouter
     for (const [key, value] of Object.entries(requiredValues)) {
       if (value == null) {
         return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        });
+          error:  `Missing required value: ${key}` }
+        );
       }
     }
     const newContact = { name, role, email, phone, contact_url, last_contacted, job_id};
