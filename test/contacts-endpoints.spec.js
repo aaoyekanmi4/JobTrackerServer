@@ -148,7 +148,7 @@ describe("Contacts Endpoints", function() {
       });
     });
   });
-  describe.only("DELETE /api/contacts/:contact_id", () => {
+  describe("DELETE /api/contacts/:contact_id", () => {
     context("Given no contacts in the database", () => {
       beforeEach(() => helpers.seedUsers(db, testUsers));
       it(`responds with 404 on delete`, () => {

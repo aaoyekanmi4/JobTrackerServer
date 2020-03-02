@@ -194,13 +194,14 @@ describe("Jobs Endpoints", function() {
           helpers.seedJobsTables(db, testUsers, testJobs, testContacts)
         );
 
-        it("responds with 200 and the specified contacts", () => {
-          const jobId = 1;
+        it.only("responds with 200 and the specified contacts", () => {
+          const jobId = 2;
           const expectedContacts = helpers.makeExpectedJobContacts(
             testUsers,
             jobId,
             testContacts
           );
+          console.log(expectedContacts)
 
           return supertest(app)
             .get(`/api/contacts/job/${jobId}`)

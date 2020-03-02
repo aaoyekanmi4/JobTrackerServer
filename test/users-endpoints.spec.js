@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const jwt = require('jsonwebtoken');
 
-describe.only('Users Endpoints', function() {
+describe('Users Endpoints', function() {
   let db
 
   const  testUsers  = helpers.makeUsersArray()
@@ -109,7 +109,7 @@ describe.only('Users Endpoints', function() {
 
         }
         const validUserId = testUsers[testUsers.length -1].id + 1;
-        console.log(nextId);
+       
         const expectedToken = jwt.sign(
          { user_id: validUserId }, // payload
          process.env.JWT_SECRET,
