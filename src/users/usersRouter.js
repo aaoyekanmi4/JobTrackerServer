@@ -5,6 +5,8 @@ const AuthService = require('../auth/auth-service');
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
 
+
+
 usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
     const { password, user_name, email, password2 } = req.body
@@ -15,12 +17,12 @@ usersRouter
       }
       if (!req.body['email']){
         return res.status(400).json({
-          error: `Please enter an email address.`
+          error: `Please enter an email address`
         })
       }
       if (!req.body['password']){
         return res.status(400).json({
-          error: `Please enter a  pasword`
+          error: `Please enter a password`
         })
       }
     if (!req.body['password2']) {
@@ -45,7 +47,8 @@ usersRouter
       .then(hasUserWithUserName => {
         if (hasUserWithUserName)
           return res.status(400).json({ error: `Username already taken` })
-
+          
+        //if credentials valid and user does not exist, post user and return token
         return UsersService.hashPassword(password)
           .then(hashedPassword => {
             const newUser = {
