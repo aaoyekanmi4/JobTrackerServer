@@ -108,10 +108,10 @@ describe.only('Users Endpoints', function() {
             email:'test email'
 
         }
-        const nextId = testUsers[testUsers.length -1].id + 1;
+        const validUserId = testUsers[testUsers.length -1].id + 1;
         console.log(nextId);
         const expectedToken = jwt.sign(
-         { user_id: nextId }, // payload
+         { user_id: validUserId }, // payload
          process.env.JWT_SECRET,
          {
            subject: validUser.user_name,
