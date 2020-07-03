@@ -8,7 +8,7 @@ store data on their job search. Users must be logged in to access each of the en
 
 ## Tech: PostgreSQL, Knex, Express, Node, Mocha, Chai, bcrypt, jwt
 
-Client: https://github.com/aaoyekanmi4/JobTrackerServer 
+Client: https://github.com/aaoyekanmi4/JobTrackerClient 
 
 ## Endpoints
 
