@@ -3,9 +3,14 @@ const authRouter = express.Router()
 const jsonBodyParser = express.json()
 const AuthService = require('./auth-service')
 
+authRouter.options('/login', function (req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.end();
+});
   authRouter
   .route('/login')
- 
   .get((req, res) => {
       res.send('Hi')
   })

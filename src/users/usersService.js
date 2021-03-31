@@ -1,8 +1,6 @@
 const bcrypt = require('bcryptjs')
 const xss = require('xss')
 
-
-
 const UsersService = {
   hasUserWithUserName(db, user_name) {
     return db('users')
