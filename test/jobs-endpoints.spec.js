@@ -213,12 +213,6 @@ describe("Jobs Endpoints", function() {
   });
   describe("PATCH /api/jobs/:job_id", ()=> {
     context("Given there are contacts for job in the database", () => {
- 
-  
-
- 
-  
-     
     beforeEach("insert jobs", () =>
     helpers.seedJobsTables(db, testUsers, testJobs, testContacts)
   );
