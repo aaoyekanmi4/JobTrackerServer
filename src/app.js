@@ -10,6 +10,7 @@ const usersRouter = require('./users/usersRouter');
 const contactsRouter = require('./contacts/contacts-router');
 
 const app = express();
+app.use(cors({origin:false}));
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
