@@ -10,18 +10,18 @@ const usersRouter = require('./users/usersRouter');
 const contactsRouter = require('./contacts/contacts-router');
 
 const app = express();
-app.use(cors({origin:false}));
+app.use(cors());
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'DELETE, PATCH, GET, POST');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'DELETE, PATCH, GET, POST');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   next();
+// });
 app.use(morgan(morganOption));
 app.use(helmet());
 
