@@ -60,7 +60,7 @@ describe('Auth Endpoints', function () {
         .send(userInvalidPass)
         .expect(400, { error: `Incorrect user_name or password` });
     });
-    it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
+    it.only(`responds 200 and JWT auth token using secret when valid credentials`, () => {
       const userValidCreds = {
         user_name: testUser.user_name,
         password: testUser.password,

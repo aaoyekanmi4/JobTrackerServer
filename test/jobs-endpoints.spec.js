@@ -194,7 +194,7 @@ describe("Jobs Endpoints", function() {
           helpers.seedJobsTables(db, testUsers, testJobs, testContacts)
         );
 
-        it.only("responds with 200 and the specified contacts", () => {
+        it("responds with 200 and the specified contacts", () => {
           const jobId = 2;
           const expectedContacts = helpers.makeExpectedJobContacts(
             testUsers,
