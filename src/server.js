@@ -1,5 +1,6 @@
 const app = require('./app')
 const knex = require('knex')
+const cors = require("cors");
 const { PORT, DATABASE_URL } = require('./config')
 
   const db = knex({
@@ -9,7 +10,7 @@ const { PORT, DATABASE_URL } = require('./config')
       rejectUnauthorized: false,
     },
   });
-  
+app.use(cors());
 app.set('db', db);
 
 app.listen(PORT, () => {
