@@ -14,9 +14,6 @@
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "engines": {
-    "node": "14.15.1"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -26,9 +23,10 @@
     "express": "^4.17.1",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.10",
+    "knex": "^0.20.15",
     "morgan": "^1.9.1",
-    "pg": "^7.18.2",
+    "npm": "^6.9.2",
+    "pg": "^8.11.1",
     "xss": "^1.0.6"
   },
   "devDependencies": {
